@@ -45,7 +45,7 @@ class TabControlController extends AbstractContentElementController
         $this->packages = $packages;
     }
 
-    public function getResponse(Template $template, ContentModel $model, Request $request): ?Response
+    public function getResponse(Template $template, ContentModel $model, Request $request): Response
     {
         static $panelIndex = 0;
 
@@ -67,10 +67,12 @@ class TabControlController extends AbstractContentElementController
             }
         }
 
+        $isFeRequest = System::getContainer()->get('contao.routing.scope_matcher')->isFrontendRequest(System::getContainer()->get('request_stack')->getCurrentRequest());
+
         switch ($model->tabType) {
             // Tabcontrol - start & tabs
             case 'tabcontroltab':
-                if (TL_MODE == 'FE') {
+                if ($isFeRequest) {
                     if (!\is_array($GLOBALS['TL_JAVASCRIPT'])) {
                         if (isset($GLOBALS['TL_HOOKS']['tabControlJS']) && \is_array($GLOBALS['TL_HOOKS']['tabControlJS'])) {
                             foreach ($GLOBALS['TL_HOOKS']['tabControlJS'] as $callback) {
@@ -111,7 +113,7 @@ class TabControlController extends AbstractContentElementController
 
             // Panel - start
             case 'tabcontrolstart':
-                if (TL_MODE == 'FE') {
+                if ($isFeRequest) {
                     $template = new FrontendTemplate($model->tab_template_start);
                     $template->paneindex = ++$panelIndex;
                 } else {
@@ -122,7 +124,7 @@ class TabControlController extends AbstractContentElementController
 
             // Panel - stop
             case 'tabcontrolstop':
-                if (TL_MODE == 'FE') {
+                if ($isFeRequest) {
                     $template = new FrontendTemplate($model->tab_template_stop);
                 } else {
                     $template = new BackendTemplate('be_wildcard');
@@ -133,7 +135,7 @@ class TabControlController extends AbstractContentElementController
             // Tabcontrol - end
             case 'tabcontrol_end':
             default:
-                if (TL_MODE == 'FE') {
+                if ($isFeRequest) {
                     $template = new FrontendTemplate($model->tab_template_end);
                 } else {
                     $template = new BackendTemplate('be_wildcard');

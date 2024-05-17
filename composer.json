@@ -26,12 +26,12 @@
   },
   "require":{
     "php":"^7.4 || ^8.0",
-    "contao/core-bundle":"^4.9",
+    "contao/core-bundle":"^4.9 || ^5.3",
     "menatwork/contao-multicolumnwizard-bundle": "^3.3"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^2.12",
-    "contao/manager-bundle": "~4.9"
+    "contao/manager-bundle": "~4.9 || ^5.0"
   },
   "extra": {
     "contao-manager-plugin": "Plenta\\TabControl\\ContaoManager\\Plugin"
@@ -46,7 +46,8 @@
       "composer/package-versions-deprecated": true,
       "contao-components/installer": true,
       "contao/manager-plugin": true,
-      "contao-community-alliance/composer-plugin": true
+      "contao-community-alliance/composer-plugin": true,
+      "php-http/discovery": true
     }
   },
   "replace": {
